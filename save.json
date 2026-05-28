@@ -1,0 +1,21 @@
+{
+  "player_name": "default",
+  "total_pythonchiks": 7,
+  "levels": {
+    "level_01": {
+      "completed": true,
+      "collected": 1,
+      "total": 3
+    },
+    "level_2": {
+      "completed": true,
+      "collected": 3,
+      "total": 3
+    },
+    "level_3": {
+      "completed": true,
+      "collected": 3,
+      "total": 3
+    }
+  }
+}

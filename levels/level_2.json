@@ -1,0 +1,312 @@
+{
+  "metadata": {
+    "id": "level_02",
+    "name": "Уровень 2",
+    "description": "Простейший уровень с блоками и выходом",
+    "background": "image/background/level1.jpg",
+    "difficulty": 1,
+    "unlock_requirement": null,
+    "author": "Аделина",
+    "version": "1.0",
+    "created": "2026-05-21"
+  },
+  "platforms": [
+    {
+      "x": 0,
+      "y": 680,
+      "width": 1280,
+      "height": 40,
+      "texture": "image/platform/grass1.jpg"
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "width": 20,
+      "height": 680,
+      "texture": "image/platform/grass1.jpg"
+    },
+    {
+      "x": 1260,
+      "y": 0,
+      "width": 20,
+      "height": 680,
+      "texture": "image/platform/grass1.jpg"
+    },
+    {
+      "x": 400,
+      "y": 650,
+      "width": 300,
+      "height": 30,
+      "texture": "image/platform/grass1.jpg"
+    },
+    {
+      "x": 20,
+      "y": 500,
+      "width": 300,
+      "height": 30,
+      "texture": "image/platform/grass1.jpg"
+    },
+    {
+      "x": 320,
+      "y": 200,
+      "width": 50,
+      "height": 360,
+      "texture": "image/platform/grass1.jpg"
+    },
+    {
+      "x": 200,
+      "y": 200,
+      "width": 120,
+      "height": 30,
+      "texture": "image/platform/grass1.jpg"
+    },
+    {
+      "x": 150,
+      "y": 230,
+      "width": 170,
+      "height": 30,
+      "texture": "image/platform/grass1.jpg"
+    },
+    {
+      "x": 20,
+      "y": 390,
+      "width": 220,
+      "height": 30,
+      "texture": "image/platform/grass1.jpg"
+    },
+    {
+      "x": 20,
+      "y": 360,
+      "width": 100,
+      "height": 30,
+      "texture": "image/platform/grass1.jpg"
+    },
+    {
+      "x": 20,
+      "y": 290,
+      "width": 50,
+      "height": 70,
+      "texture": "image/platform/grass1.jpg"
+    },
+    {
+      "x": 460,
+      "y": 300,
+      "width": 300,
+      "height": 30,
+      "texture": "image/platform/grass1.jpg"
+    },
+    {
+      "x": 740,
+      "y": 430,
+      "width": 100,
+      "height": 150,
+      "texture": "image/platform/grass1.jpg"
+    },
+    {
+      "x": 740,
+      "y": 430,
+      "width": 520,
+      "height": 30,
+      "texture": "image/platform/grass1.jpg"
+    },
+    {
+      "x": 1050,
+      "y": 200,
+      "width": 210,
+      "height": 30,
+      "texture": "image/platform/grass1.jpg"
+    },
+    {
+      "x": 1020,
+      "y": 200,
+      "width": 30,
+      "height": 130,
+      "texture": "image/platform/grass1.jpg"
+    },
+    {
+      "x": 1020,
+      "y": 620,
+      "width": 80,
+      "height": 60,
+      "texture": "image/platform/grass1.jpg"
+    }
+  ],
+  "players": [
+    {
+      "x": 1040,
+      "y": 200,
+      "color": [
+        0,
+        100,
+        255
+      ],
+      "speed": 3,
+      "jump_power": -9,
+      "width": 80,
+      "height": 90,
+      "controls": {
+        "left": "K_LEFT",
+        "right": "K_RIGHT",
+        "jump": "K_UP",
+        "down": "K_DOWN"
+      },
+      "image": "image/sprite/adelina.png"
+    },
+    {
+      "x": 460,
+      "y": 270,
+      "color": [
+        255,
+        100,
+        100
+      ],
+      "speed": 5,
+      "jump_power": -11,
+      "width": 60,
+      "height": 70,
+      "controls": {
+        "left": "K_a",
+        "right": "K_d",
+        "jump": "K_w"
+      },
+      "image": "image/sprite/anna.png"
+    }
+  ],
+  "enemies": [
+    {
+      "x": 400,
+      "y": 570,
+      "size": 80,
+      "color": [
+        150,
+        50,
+        200
+      ],
+      "speed": 1,
+      "jump_power": 0,
+      "patrol_range": [
+        400,
+        650
+      ],
+      "image": "image/sprite/myxa.png"
+    }
+  ],
+  "blocks": [
+    {
+      "x": 1130,
+      "y": 300,
+      "width": 50,
+      "height": 50,
+      "color": [
+        200,
+        100,
+        50
+      ],
+      "image_path": "image/sprite/PK.jpg"
+    }
+  ],
+  "buttons": [
+    {
+      "x": 100,
+      "y": 460,
+      "width": 60,
+      "height": 40,
+      "image": "image/sprite/rechag.jpg",
+      "door_id": "lever_door",
+      "toggle": true
+    },
+    {
+      "x": 1150,
+      "y": 645,
+      "width": 50,
+      "height": 40,
+      "image": "image/sprite/button.png",
+      "door_id": "button_yello",
+      "toggle": false
+    }
+  ],
+  "doors": [
+    {
+      "x": 370,
+      "y": 300,
+      "width": 90,
+      "height": 20,
+      "image": "image/sprite/movie_red.jpg",
+      "door_id": "lever_door",
+      "horizontal": true
+    },
+    {
+      "x": 740,
+      "y": 330,
+      "width": 20,
+      "height": 100,
+      "image": "image/sprite/movie_yellow_vert.jpg",
+      "door_id": "button_yello",
+      "horizontal": false
+    },
+    {
+      "x": 1024,
+      "y": 330,
+      "width": 20,
+      "height": 100,
+      "image": "image/sprite/movie_red_vert.jpg",
+      "door_id": "lever_door",
+      "horizontal": false
+    }
+  ],
+  "collectibles": [
+    {
+      "x": 600,
+      "y": 400,
+      "width": 50,
+      "height": 50,
+      "image": "image/sprite/pythonchik.jpg",
+      "item_id": "pythonchik_1"
+    },
+    {
+      "x": 1025,
+      "y": 550,
+      "width": 50,
+      "height": 50,
+      "image": "image/sprite/pythonchik.jpg",
+      "item_id": "pythonchik_2"
+    },
+    {
+      "x": 1200,
+      "y": 100,
+      "width": 50,
+      "height": 50,
+      "image": "image/sprite/pythonchik.jpg",
+      "item_id": "pythonchik_3"
+    }
+  ],
+  "goals": {
+    "type": "exit",
+    "x": 450,
+    "y": 500,
+    "width": 100,
+    "height": 150,
+    "next_level": "level_03"
+  },
+  "moving_blocks": [],
+  "vertical_buttons": [],
+  "door_exits": [
+    {
+      "x": 450,
+      "y": 500,
+      "width": 100,
+      "height": 150,
+      "image": "image/sprite/door_exit.jpg",
+      "screen_width": 1280,
+      "screen_height": 720
+    }
+  ],
+  "settings": {
+    "gravity": 0.5,
+    "friction": 0.8,
+    "max_fall_speed": 15,
+    "camera_follow": "both_players",
+    "time_limit": null,
+    "win_condition": "reach_exit"
+  }
+}

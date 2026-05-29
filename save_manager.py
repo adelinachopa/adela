@@ -26,8 +26,7 @@ def load_save() -> Dict[str, Any]:
     try:
         with open(SAVE_FILE, 'r', encoding='utf-8') as f:
             data = json.load(f)
-        # Проверяем структуру, добавляем недостающие поля
-        default = get_default_save()
+       default = get_default_save()
         if "player_name" not in data:
             data["player_name"] = default["player_name"]
         if "total_pythonchiks" not in data:
@@ -61,21 +60,16 @@ def update_level_progress(level_id: str, completed: bool, collected: int, total:
     """
     data = load_save()
     
-    # Обновляем запись уровня
     if level_id not in data["levels"]:
         data["levels"][level_id] = {"completed": False, "collected": 0, "total": total}
     
     level_data = data["levels"][level_id]
-    # Если уровень уже был пройден, не уменьшаем собранные питончики (сохраняем максимум)
     if completed:
         level_data["completed"] = True
-    # Обновляем количество собранных питончиков (максимальное из текущего и нового)
     if collected > level_data["collected"]:
         level_data["collected"] = collected
-    # Обновляем общее количество питончиков на уровне (может измениться при изменении уровня)
     level_data["total"] = total
     
-    # Пересчитываем общее количество питончиков по всем уровням
     total_pythonchiks = sum(lev["collected"] for lev in data["levels"].values())
     data["total_pythonchiks"] = total_pythonchiks
     

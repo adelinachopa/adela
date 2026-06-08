@@ -15,7 +15,7 @@ class Menu:
 
         # Кнопка "Играть" (изображение)
         self.button_rect = pygame.Rect(0, 0, 200, 60)
-        self.button_rect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 25)
+        self.button_rect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 100)
         self.button_color = GREEN
         self.button_hover_color = (0, 200, 0)
         self.button_image = load_image("image/sprite/button_play.jpg", 200, 60)

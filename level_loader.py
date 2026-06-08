@@ -5,7 +5,7 @@ import json
 import os
 import pygame
 from error_handler import GameErrorHandler
-from setting import SCREEN_WIDTH, SCREEN_HEIGHT, PLATFORM_TEX, PLAYER1_IMG, PLAYER2_IMG, BLUE, RED, WHITE
+import setting  # используем setting.CONSTANT для доступа к константам
 
 class LevelLoader:
     """Загружает и валидирует уровни из JSON файлов"""
@@ -218,17 +218,17 @@ class LevelLoader:
             "platforms": [
                 {
                     "x": 0,
-                    "y": SCREEN_HEIGHT - 40,
-                    "width": SCREEN_WIDTH,
+                    "y": setting.SCREEN_HEIGHT - 40,
+                    "width": setting.SCREEN_WIDTH,
                     "height": 40,
-                    "texture": PLATFORM_TEX
+                    "texture": setting.PLATFORM_TEX
                 }
             ],
             "players": [
                 {
                     "x": 100,
-                    "y": SCREEN_HEIGHT - 100,
-                    "color": list(BLUE),
+                    "y": setting.SCREEN_HEIGHT - 100,
+                    "color": list(setting.BLUE),
                     "speed": 5,
                     "jump_power": -10,
                     "controls": {
@@ -236,7 +236,7 @@ class LevelLoader:
                         "right": "K_RIGHT",
                         "jump": "K_UP"
                     },
-                    "image": PLAYER1_IMG
+                    "image": setting.PLAYER1_IMG
                 }
             ],
             "enemies": [

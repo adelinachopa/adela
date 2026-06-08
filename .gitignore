@@ -1,0 +1,18 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Logs
+*.log
+debug_log.txt
+logcat_filtered.txt
+
+# Build artifacts
+bin/
+.buildozer/
+.venv/
+
+# OS
+Thumbs.db
+.DS_Store

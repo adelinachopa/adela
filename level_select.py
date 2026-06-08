@@ -1,6 +1,7 @@
 import pygame
 import sys
 import os
+import glob
 import setting
 from setting import *
 from save_manager import load_save, get_level_progress
@@ -18,11 +19,19 @@ class LevelSelect:
         # Загружаем прогресс
         self.save_data = load_save()
         
+        # Автоматическое сканирование файлов уровней
+        self.level_files = self._scan_level_files()
+        self.total_buttons = len(self.level_files)
+        
+        if self.total_buttons == 0:
+            # Если уровней нет, создаём заглушку
+            self.buttons = []
+            return
+        
         # Параметры кнопок
         self.button_width = 150
         self.button_height = 150
         self.button_margin = 50
-        self.total_buttons = 3
         
         # Вычисляем общую ширину блока кнопок
         total_width = self.total_buttons * self.button_width + (self.total_buttons - 1) * self.button_margin
@@ -31,20 +40,20 @@ class LevelSelect:
         
         # Создаём кнопки
         self.buttons = []
-        level_ids = ["level_01", "level_2", "level_3"]
-        button_images = ["button_1.jpg", "button_2.jpg", "button_3.jpg"]
         lock_image = "button_lock.jpg"
         
-        for i in range(self.total_buttons):
-            level_id = level_ids[i]
-            button_image = button_images[i]
+        for i, (level_id, level_file) in enumerate(self.level_files):
+            # Пытаемся загрузить изображение кнопки по номеру (button_1.jpg, button_2.jpg, ...)
+            button_image_name = f"button_{i+1}.jpg"
+            button_image_path = os.path.join("image", "sprite", button_image_name)
+            
             rect = pygame.Rect(start_x + i * (self.button_width + self.button_margin), y,
                                self.button_width, self.button_height)
             
             # Проверяем, доступен ли уровень
             unlocked = self.is_level_unlocked(level_id)
-            if unlocked:
-                image_path = os.path.join("image", "sprite", button_image)
+            if unlocked and os.path.exists(button_image_path):
+                image_path = button_image_path
             else:
                 image_path = os.path.join("image", "sprite", lock_image)
             
@@ -54,8 +63,23 @@ class LevelSelect:
                 "image": image,
                 "level_id": level_id,
                 "unlocked": unlocked,
-                "file": f"levels/{level_id}.json" if level_id != "level_3" else "levels/level_3.json"
+                "file": level_file
             })
+    
+    def _scan_level_files(self):
+        """Сканирует папку levels/ и возвращает список (level_id, filepath)."""
+        levels_dir = "levels"
+        if not os.path.isdir(levels_dir):
+            return []
+        
+        json_files = sorted(glob.glob(os.path.join(levels_dir, "*.json")))
+        result = []
+        for filepath in json_files:
+            basename = os.path.basename(filepath)
+            level_id = os.path.splitext(basename)[0]  # "level_01", "level_2", etc.
+            result.append((level_id, filepath))
+        
+        return result
     
     def is_level_unlocked(self, level_id):
         """Проверяет, доступен ли уровень на основе прогресса."""

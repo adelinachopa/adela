@@ -10,182 +10,31 @@ from levels import Level
 from menu import Menu
 from level_select import LevelSelect
 from error_handler import GameErrorHandler
-from joystick import create_mobile_controls
 from entities import LevelFailUI
 import save_manager
 
-def generate_level_from_template(template_path="levels/level_01.json", level_num=1):
-    """
-    Генерирует новый уровень на основе шаблона.
-    Возвращает dict с данными уровня.
-    """
-    try:
-        with open(template_path, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-    except Exception as e:
-        print(f"Ошибка загрузки шаблона {template_path}: {e}")
-        # Возвращаем данные по умолчанию
-        from level_loader import LevelLoader
-        return LevelLoader.get_default_level()
-    
-    # Изменяем метаданные
-    data["metadata"]["id"] = f"generated_{level_num}"
-    data["metadata"]["name"] = f"Сгенерированный уровень {level_num}"
-    data["metadata"]["description"] = f"Автоматически сгенерированный уровень на основе {os.path.basename(template_path)}"
-    
-    # Случайное смещение по X для всех объектов (кроме тех, которые должны остаться на месте)
-    offset_x = random.randint(-100, 100)  # от -100 до +100 пикселей
-    offset_y = random.randint(-50, 50)   # небольшое смещение по Y
-    
-    # Функция для сдвига координат в списке объектов
-    def shift_coords(obj_list, keys=('x', 'y')):
-        for obj in obj_list:
-            for key in keys:
-                if key in obj:
-                    obj[key] += offset_x if key == 'x' else offset_y
-                    # Ограничим, чтобы не уходить за границы экрана (ширина 1280, высота 720)
-                    if key == 'x':
-                        if obj[key] < 0:
-                            obj[key] = 0
-                        elif obj[key] > 1200:
-                            obj[key] = 1200
-                    if key == 'y':
-                        if obj[key] < 0:
-                            obj[key] = 0
-                        elif obj[key] > 700:
-                            obj[key] = 700
-    
-    # Сдвигаем платформы
-    if "platforms" in data:
-        shift_coords(data["platforms"])
-    
-    # Сдвигаем игроков (но оставим их близко к началу)
-    if "players" in data:
-        for player in data["players"]:
-            player["x"] += offset_x // 2  # меньшее смещение для игроков
-            player["y"] += offset_y // 2
-    
-    # Сдвигаем врагов
-    if "enemies" in data:
-        shift_coords(data["enemies"])
-    
-    # Сдвигаем блоки
-    if "blocks" in data:
-        shift_coords(data["blocks"])
-    
-    # Сдвигаем кнопки
-    if "buttons" in data:
-        shift_coords(data["buttons"])
-    
-    # Сдвигаем двери
-    if "doors" in data:
-        shift_coords(data["doors"])
-    
-    # Сдвигаем собираемые предметы
-    if "collectibles" in data:
-        shift_coords(data["collectibles"])
-    
-    # Сдвигаем движущиеся блоки
-    if "moving_blocks" in data:
-        shift_coords(data["moving_blocks"])
-    
-    # Сдвигаем вертикальные кнопки
-    if "vertical_buttons" in data:
-        shift_coords(data["vertical_buttons"])
-    
-    # Сдвигаем двери выхода
-    if "door_exits" in data:
-        shift_coords(data["door_exits"])
-    
-    # Сдвигаем цели (goals)
-    if "goals" in data and isinstance(data["goals"], dict):
-        if "x" in data["goals"]:
-            data["goals"]["x"] += offset_x
-        if "y" in data["goals"]:
-            data["goals"]["y"] += offset_y
-    
-    # Возвращаем модифицированные данные
-    return data
 
 def main():
     # Инициализация PyGame с проверкой
-    if not pygame.init():
-        print("FATAL ERROR: PyGame initialization failed!")
+    # pygame.init() возвращает кортеж (n_success, n_failed)
+    init_result = pygame.init()
+    if init_result[1] > 0:
+        print(f"FATAL ERROR: PyGame initialization failed! ({init_result[1]} modules failed)")
         return 1
     
     # Проверка инициализации модулей
-    modules_ok = True
-    
-    if not pygame.display.get_init():
-        print("WARNING: Display module not initialized properly")
-        modules_ok = False
-    
     if not pygame.font.get_init():
         print("WARNING: Font module not initialized properly")
-        # Попытка инициализировать вручную
         pygame.font.init()
-    
-    if not modules_ok:
-        print("WARNING: Some PyGame modules failed to initialize")
-        # Можно продолжить, но с ограниченной функциональностью
     
     # Импортируем setting для возможности переопределения констант
     import setting as s
     
-    # Определяем реальное разрешение экрана
-    if IS_MOBILE:
-        try:
-            # На Android пытаемся получить реальное разрешение экрана
-            # Используем pygame.display.Info() после инициализации дисплея
-            display_info = pygame.display.Info()
-            real_width = display_info.current_w
-            real_height = display_info.current_h
-            
-            if real_width <= 0 or real_height <= 0:
-                # Если не удалось получить, используем SCREEN_WIDTH/HEIGHT
-                real_width = s.SCREEN_WIDTH
-                real_height = s.SCREEN_HEIGHT
-            
-            # ПРИНУДИТЕЛЬНО landscape: если ширина меньше высоты, меняем местами
-            # Телефон может временно быть в portrait, но игра всегда должна быть landscape
-            if real_width < real_height:
-                real_width, real_height = real_height, real_width
-                print(f"Forced landscape: {real_width}x{real_height}")
-            
-            print(f"Real screen resolution: {real_width}x{real_height}")
-            
-            # Вычисляем виртуальное разрешение с сохранением пропорций 16:9
-            virtual_width = real_width
-            virtual_height = int(virtual_width * 9 / 16)
-            
-            # Если виртуальная высота больше реальной, используем реальную высоту
-            if virtual_height > real_height:
-                virtual_height = real_height
-                virtual_width = int(virtual_height * 16 / 9)
-            
-            print(f"Virtual resolution: {virtual_width}x{virtual_height}")
-            
-            # Переопределяем константы в модуле setting (они используются всеми другими модулями)
-            s.SCREEN_WIDTH = virtual_width
-            s.SCREEN_HEIGHT = virtual_height
-            s.SCALE_FACTOR = virtual_width / s.REFERENCE_WIDTH
-            s.BLOCK_SIZE = int(virtual_width * 0.05)
-            
-            print(f"Adjusted SCREEN: {s.SCREEN_WIDTH}x{s.SCREEN_HEIGHT}, "
-                  f"SCALE_FACTOR: {s.SCALE_FACTOR:.2f}, BLOCK_SIZE: {s.BLOCK_SIZE}")
-        except Exception as e:
-            print(f"Could not detect real resolution: {e}")
-            # Если не удалось определить, используем стандартные landscape размеры
-            s.SCREEN_WIDTH = 1280
-            s.SCREEN_HEIGHT = 720
-            s.SCALE_FACTOR = 1.0
-            s.BLOCK_SIZE = 40
-    
-    # Создаём полноэкранное окно с масштабированием
+    # Создаём полноэкранное окно
     try:
         screen = pygame.display.set_mode(
             (s.SCREEN_WIDTH, s.SCREEN_HEIGHT),
-            pygame.FULLSCREEN | pygame.SCALED
+            pygame.FULLSCREEN | pygame.HWSURFACE | pygame.DOUBLEBUF
         )
     except pygame.error as e:
         print(f"ERROR: Failed to create display: {e}")
@@ -228,12 +77,6 @@ def main():
         background = load_image(BACKGROUND_IMG, s.SCREEN_WIDTH, s.SCREEN_HEIGHT)
         # Сохраняем начальное количество собираемых элементов
         initial_collectibles_count = len(level.collectibles)
-        
-        # Инициализация мобильного управления (если нужно)
-        mobile_controls = None
-        if IS_MOBILE:
-            mobile_controls = create_mobile_controls()
-            print("Мобильное управление активировано")
 
         # Загрузка изображения кнопки перезапуска уровня
         restart_button_image = load_image("image/sprite/refresh.jpg", 100, 100)
@@ -269,29 +112,7 @@ def main():
 
                 # Обработка ввода
                 keys = pygame.key.get_pressed()
-                
-                # Если есть мобильное управление, получаем состояние от него
-                if mobile_controls:
-                    mobile_keys = mobile_controls.handle_events(events)
-                    # Объединяем состояния клавиш (мобильные имеют приоритет)
-                    for key, pressed in mobile_keys.items():
-                        # Эмулируем нажатие клавиш
-                        # В Pygame нет прямого способа изменить pygame.key.get_pressed(),
-                        # поэтому создаем свой словарь состояний
-                        keys = list(keys)  # Конвертируем в список для модификации
-                        if key < len(keys):
-                            keys[key] = pressed
-                    # Конвертируем обратно в нужный формат
-                    # Создаем новый объект, эмулирующий pygame.key.get_pressed()
-                    class KeyState:
-                        def __getitem__(self, key):
-                            if key < len(keys):
-                                return keys[key]
-                            return False
-                    
-                    key_state = KeyState()
-                else:
-                    key_state = keys
+                key_state = keys
 
                 if not level_complete and not level_failed:
                     for player in level.players:
@@ -313,14 +134,6 @@ def main():
                             save_manager.update_level_progress(level_id, True, collected, total)
                             print(f"Уровень {level_id} завершён! Собрано {collected}/{total} питончиков.")
                             break
-
-                # Отладочный вывод состояния игроков
-                for i, player in enumerate(level.players):
-                    GameErrorHandler.log_error(
-                        f"Player {i}: rect={player.rect}, vx={player.vx}, vy={player.vy}, on_ground={player.on_ground if hasattr(player, 'on_ground') else 'N/A'}",
-                        "main.game_loop",
-                        "DEBUG"
-                    )
 
                 # Проверка столкновений игроков с врагами
                 if not level_failed and level.check_collisions():
@@ -458,10 +271,6 @@ def main():
                 if level_failed and level_fail_ui is not None:
                     level_fail_ui.draw(screen)
                 
-                # Отрисовка мобильного управления (если активно)
-                if mobile_controls:
-                    mobile_controls.draw(screen)
-                
                 pygame.display.flip()
                 clock.tick(FPS)
         except Exception as e:
@@ -477,219 +286,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# import pygame
-# from setting import *
-# from entities import *
-# from bots import *
-# from levels import *
-# import sys
-
-# # Инициализация Pygame
-# pygame.init()
-
-
-
-# # Получаем информацию о текущем дисплее
-# info = pygame.display.Info()
-# screen_width = info.current_w
-# screen_height = info.current_h
-
-# screen = pygame.display.set_mode((screen_width, screen_height), pygame.FULLSCREEN)
-# pygame.display.set_caption("Escape to EMK")
-# clock = pygame.time.Clock()
-
-
-
-# # Игровой цикл 
-# running = True
-# while running:
-#     # 1. Обрабатываем события (закрытие окна, нажатия клавиш)
-#     for event in pygame.event.get():
-#         if event.type == pygame.QUIT:
-#             running = False
-#         if event.type == pygame.KEYDOWN:
-#             if event.key == pygame.K_ESCAPE:
-#                 running = False
-    
-#     # 2. Очищаем экран (заливаем чёрным)
-#     # Получаем состояние всех клавиш
-#     walk(keys = pygame.key.get_pressed())
-
-# # --- ДВИЖЕНИЕ ПЕРВОГО ПРЕПОДАВАТЕЛЯ ---
-#     if teacher1_state == "patrol":
-#     # Патрулирование как раньше
-#         target1_x, target1_y = teacher1_patrol[teacher1_patrol_index]
-    
-#         if teacher1_rect.x < target1_x:
-#             teacher1_rect.x += teacher1_speed
-#         elif teacher1_rect.x > target1_x:
-#             teacher1_rect.x -= teacher1_speed
-    
-#         if teacher1_rect.y < target1_y:
-#             teacher1_rect.y += teacher1_speed
-#         elif teacher1_rect.y > target1_y:
-#             teacher1_rect.y -= teacher1_speed
-    
-#         if abs(teacher1_rect.x - target1_x) < teacher1_speed and abs(teacher1_rect.y - target1_y) < teacher1_speed:
-#             teacher1_patrol_index = 1 - teacher1_patrol_index
-
-#     elif teacher1_state == "chase":
-#     # Преследование цели
-#         if teacher1_target:
-#             if teacher1_rect.x < teacher1_target.centerx:
-#                 teacher1_rect.x += teacher1_speed
-#             elif teacher1_rect.x > teacher1_target.centerx:
-#                 teacher1_rect.x -= teacher1_speed
-
-#             if teacher1_rect.y < teacher1_target.centery:
-#                 teacher1_rect.y += teacher1_speed
-#             elif teacher1_rect.y > teacher1_target.centery:
-#                 teacher1_rect.y -= teacher1_speed
-
-# # --- ДВИЖЕНИЕ ВТОРОГО ПРЕПОДАВАТЕЛЯ ---
-#     if teacher2_state == "patrol":
-#         target2_x, target2_y = teacher2_patrol[teacher2_patrol_index]
-    
-#         if teacher2_rect.x < target2_x:
-#             teacher2_rect.x += teacher2_speed
-#         elif teacher2_rect.x > target2_x:
-#             teacher2_rect.x -= teacher2_speed
-    
-#         if teacher2_rect.y < target2_y:
-#             teacher2_rect.y += teacher2_speed
-#         elif teacher2_rect.y > target2_y:
-#             teacher2_rect.y -= teacher2_speed
-    
-#         if abs(teacher2_rect.x - target2_x) < teacher2_speed and abs(teacher2_rect.y - target2_y) < teacher2_speed:
-#             teacher2_patrol_index = 1 - teacher2_patrol_index
-
-#     elif teacher2_state == "chase":
-#         if teacher2_target:
-#             if teacher2_rect.x < teacher2_target.centerx:
-#                 teacher2_rect.x += teacher2_speed
-#             elif teacher2_rect.x > teacher2_target.centerx:
-#                 teacher2_rect.x -= teacher2_speed
-        
-#             if teacher2_rect.y < teacher2_target.centery:
-#                 teacher2_rect.y += teacher2_speed
-#             elif teacher2_rect.y > teacher2_target.centery:
-#                 teacher2_rect.y -= teacher2_speed
-# # Список игроков
-# #ПРОВЕРКА ОБНАРУЖЕНИЯ И СМЕНА СОСТОЯНИЙ 
-#     players = [adeline_rect, anya_rect]
-
-# # Для первого преподавателя
-#     teacher1_was_chasing = (teacher1_state == "chase")
-#     teacher1_state = "patrol"  # Сначала сбрасываем
-#     teacher1_target = None
-
-#     for player in players:
-#         dx = teacher1_rect.centerx - player.centerx
-#         dy = teacher1_rect.centery - player.centery
-#         distance = (dx**2 + dy**2)**0.5
-    
-#         if distance < 250:  # Увидел игрока
-#             teacher1_state = "chase"
-#             teacher1_target = player
-#             if not teacher1_was_chasing:
-#                 who = "Аделину" if player == adeline_rect else "Аню"
-#                 print(f"Черноскутов погнался за {who}!")
-
-#     # Если никого не видит, но только что преследовал
-#     if teacher1_state == "patrol" and teacher1_was_chasing:
-#         print("Черноскутов потерял игрока и вернулся в патруль")
-
-#     # Для второго преподавателя
-#     teacher2_was_chasing = (teacher2_state == "chase")
-#     teacher2_state = "patrol"
-#     teacher2_target = None
-
-#     for player in players:
-#         dx = teacher2_rect.centerx - player.centerx
-#         dy = teacher2_rect.centery - player.centery
-#         distance = (dx**2 + dy**2)**0.5
-    
-#         if distance < 250:
-#             teacher2_state = "chase"
-#             teacher2_target = player
-#             if not teacher2_was_chasing:
-#                 who = "Аделину" if player == adeline_rect else "Аню"
-#                 print(f"Мухлынин погнался за {who}!")
-#     if teacher2_state == "patrol" and teacher2_was_chasing:
-#         print("Мухлынин потерял игрока и вернулся в патруль")
-
-    
-
-#     screen.fill(BLACK)
-#     # Визуализация радиусов обнаружения (временная отладка)
-#     pygame.draw.circle(screen, (255, 0, 0), teacher1_rect.center, 250, 1)  # Красный круг
-#     pygame.draw.circle(screen, (255, 100, 0), teacher2_rect.center, 250, 1)  # Оранжевый круг
-#     # 3. Здесь будет отрисовка всех объектов
-#     # Рисуем игрока
-#     pygame.draw.rect(screen, GREEN, wall_rect)
-
-#     pygame.draw.rect(screen, teacher1_color, teacher1_rect)  # Черноскутов
-#     pygame.draw.rect(screen, teacher2_color, teacher2_rect) #Мухлынин
-#     pygame.draw.rect(screen, adeline_color, adeline_rect) # Аделина
-#     pygame.draw.rect(screen, anya_color, anya_rect) # Аня
-
-
-#     # 4. Обновляем экран
-#     # screen.fill((0, 128, 255))
-#     pygame.display.flip()
-    
-#     # 5. Контроль FPS (кадров в секунду)
-#     clock.tick(60)
-# pygame.quit()
-# sys.exit()
-
-

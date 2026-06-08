@@ -6,7 +6,9 @@ import json
 import os
 from typing import Dict, Any
 
-SAVE_FILE = "save.json"
+# Путь к файлу сохранения — рядом с main.py (корень проекта)
+SAVE_DIR = os.path.dirname(os.path.abspath(__file__)) if "__file__" in dir() else os.getcwd()
+SAVE_FILE = os.path.join(SAVE_DIR, "save.json")
 
 def get_default_save() -> Dict[str, Any]:
     """Возвращает структуру сохранения по умолчанию."""

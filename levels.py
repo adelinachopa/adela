@@ -6,7 +6,8 @@ from game_platform import Platform
 from entities import Player, Enemy, Block, Button, Door, MovingBlock, VerticalButton, Collectible, DoorExit
 from level_loader import LevelLoader
 from error_handler import GameErrorHandler
-from setting import BLUE, RED, WHITE, GREEN, IS_MOBILE, PLAYER_WIDTH, PLAYER_HEIGHT
+from setting import BLUE, RED, WHITE, GREEN, PLAYER_WIDTH, PLAYER_HEIGHT
+
 
 class Level:
     def __init__(self, level_data_or_path):
@@ -50,51 +51,24 @@ class Level:
         self.load_level(self.level_data)
 
     def load_level(self, data):
-        """Загружает данные уровня с масштабированием под мобильные экраны."""
-        # Определяем коэффициент масштабирования (из модуля setting, может быть переопределён в main.py)
-        scale = setting.SCALE_FACTOR if IS_MOBILE else 1.0
-        
-        # Вспомогательная функция для масштабирования координат
-        def scale_pos(obj, keys=('x', 'y')):
-            for key in keys:
-                if key in obj:
-                    obj[key] = int(obj[key] * scale)
-        
-        def scale_size(obj, keys=('width', 'height')):
-            for key in keys:
-                if key in obj:
-                    obj[key] = max(1, int(obj[key] * scale))
-        
+        """Загружает данные уровня (ПК-версия, без масштабирования)."""
         # Загрузка платформ
         for plat in data.get('platforms', []):
             if isinstance(plat, dict):
-                # Масштабируем координаты и размеры
-                if IS_MOBILE:
-                    plat_copy = dict(plat)
-                    scale_pos(plat_copy)
-                    scale_size(plat_copy)
-                else:
-                    plat_copy = plat
                 # Новый формат JSON
                 self.platforms.add(Platform(
-                    plat_copy['x'], plat_copy['y'],
-                    plat_copy['width'], plat_copy['height'],
-                    color=plat_copy.get('color'),
-                    image_path=plat_copy.get('texture')  # Используем 'texture' вместо 'image_path'
+                    plat['x'], plat['y'],
+                    plat['width'], plat['height'],
+                    color=plat.get('color'),
+                    image_path=plat.get('texture')  # Используем 'texture' вместо 'image_path'
                 ))
             else:
                 # Старый формат: (x, y, w, h, texture)
-                if IS_MOBILE:
-                    x = int(plat[0] * scale)
-                    y = int(plat[1] * scale)
-                    w = max(1, int(plat[2] * scale))
-                    h = max(1, int(plat[3] * scale))
-                else:
-                    x, y, w, h = plat[0], plat[1], plat[2], plat[3]
+                x, y, w, h = plat[0], plat[1], plat[2], plat[3]
                 self.platforms.add(Platform(x, y, w, h, image_path=plat[4]))
         
         # Загрузка игроков
-        for p in data.get('players', []):
+        for i, p in enumerate(data.get('players', [])):
             # Конвертируем строковые ключи в pygame коды
             controls_dict = p.get('controls', {})
             pygame_controls = LevelLoader.convert_controls(controls_dict)
@@ -116,30 +90,18 @@ class Level:
             width = p.get('width')
             height = p.get('height')
             
-            # Масштабируем позицию игрока
-            if IS_MOBILE:
-                px = int(p['x'] * scale)
-                py = int(p['y'] * scale)
-                if width is not None:
-                    width = max(1, int(width * scale))
-                else:
-                    width = max(1, int(PLAYER_WIDTH * scale))
-                if height is not None:
-                    height = max(1, int(height * scale))
-                else:
-                    height = max(1, int(PLAYER_HEIGHT * scale))
-            else:
-                px = p['x']
-                py = p['y']
+            # Определяем имя персонажа: первый игрок — Аделина, второй — Аня
+            player_name = p.get('name', f"player_{i}")
             
             self.players.add(Player(
-                px, py,
+                p['x'], p['y'],
                 color,
                 p['speed'], jump_power,
                 pygame_controls,
                 image_path,
                 width,
-                height
+                height,
+                player_name
             ))
         
         # Загрузка врагов
@@ -160,20 +122,9 @@ class Level:
             # Получаем patrol_range (новый формат) или patrol (старый формат)
             patrol_range = e.get('patrol_range', [300, 500])
             
-            # Масштабируем
-            if IS_MOBILE:
-                ex = int(e['x'] * scale)
-                ey = int(e['y'] * scale)
-                esize = max(1, int(e.get('size', 80) * scale))
-                patrol_range = [int(x * scale) for x in patrol_range]
-            else:
-                ex = e['x']
-                ey = e['y']
-                esize = e.get('size', 80)
-            
             self.enemies.add(Enemy(
-                ex, ey,
-                esize,
+                e['x'], e['y'],
+                e.get('size', 80),
                 color,
                 e['speed'], jump_power,
                 patrol_range,
@@ -192,24 +143,12 @@ class Level:
             # Получаем путь к изображению
             image_path = b.get('image') or b.get('image_path')
             
-            # Получаем размеры (опционально)
-            if IS_MOBILE:
-                bx = int(b['x'] * scale)
-                by = int(b['y'] * scale)
-                width = max(1, int(b.get('width', 40) * scale))
-                height = max(1, int(b.get('height', 40) * scale))
-            else:
-                bx = b['x']
-                by = b['y']
-                width = b.get('width', 40)
-                height = b.get('height', 40)
-            
             # Получаем флаг pushable_only (блок можно только толкать, нельзя поднимать)
             pushable_only = b.get('pushable_only', False)
             
             self.blocks.add(Block(
-                bx, by,
-                width, height,
+                b['x'], b['y'],
+                b.get('width', 40), b.get('height', 40),
                 color,
                 image_path,
                 pushable_only
@@ -227,26 +166,14 @@ class Level:
             # Получаем путь к изображению
             image_path = btn.get('image') or btn.get('image_path')
             
-            # Получаем размеры (опционально)
-            if IS_MOBILE:
-                btnx = int(btn['x'] * scale)
-                btny = int(btn['y'] * scale)
-                width = max(1, int(btn.get('width', 40) * scale))
-                height = max(1, int(btn.get('height', 20) * scale))
-            else:
-                btnx = btn['x']
-                btny = btn['y']
-                width = btn.get('width', 40)
-                height = btn.get('height', 20)
-            
             # Получаем ID двери
             door_id = btn.get('door_id')
             # Получаем режим рычага (по умолчанию False)
             toggle = btn.get('toggle', False)
             
             self.buttons.add(Button(
-                btnx, btny,
-                width, height,
+                btn['x'], btn['y'],
+                btn.get('width', 40), btn.get('height', 20),
                 image_path,
                 door_id,
                 toggle
@@ -264,18 +191,6 @@ class Level:
             # Получаем путь к изображению
             image_path = dr.get('image') or dr.get('image_path')
             
-            # Получаем размеры (опционально)
-            if IS_MOBILE:
-                drx = int(dr['x'] * scale)
-                dry = int(dr['y'] * scale)
-                width = max(1, int(dr.get('width', 80) * scale))
-                height = max(1, int(dr.get('height', 20) * scale))
-            else:
-                drx = dr['x']
-                dry = dr['y']
-                width = dr.get('width', 80)
-                height = dr.get('height', 20)
-            
             # Получаем ID двери
             door_id = dr.get('door_id')
             
@@ -283,8 +198,8 @@ class Level:
             horizontal = dr.get('horizontal', True)
             
             self.doors.add(Door(
-                drx, dry,
-                width, height,
+                dr['x'], dr['y'],
+                dr.get('width', 80), dr.get('height', 20),
                 image_path,
                 door_id,
                 horizontal
@@ -302,32 +217,16 @@ class Level:
             # Получаем путь к изображению
             image_path = mb.get('image') or mb.get('image_path')
             
-            # Получаем размеры (опционально)
-            if IS_MOBILE:
-                mbx = int(mb['x'] * scale)
-                mby = int(mb['y'] * scale)
-                width = max(1, int(mb.get('width', 40) * scale))
-                height = max(1, int(mb.get('height', 40) * scale))
-                move_speed = mb.get('move_speed', 3) * scale
-                move_range = int(mb.get('move_range', 200) * scale)
-            else:
-                mbx = mb['x']
-                mby = mb['y']
-                width = mb.get('width', 40)
-                height = mb.get('height', 40)
-                move_speed = mb.get('move_speed', 3)
-                move_range = mb.get('move_range', 200)
-            
             move_up = mb.get('move_up', False)
             block_id = mb.get('block_id')
             
             moving_block = MovingBlock(
-                mbx, mby,
-                width, height,
+                mb['x'], mb['y'],
+                mb.get('width', 40), mb.get('height', 40),
                 color,
                 image_path,
-                move_speed,
-                move_range,
+                mb.get('move_speed', 3),
+                mb.get('move_range', 200),
                 move_up
             )
             if block_id:
@@ -346,24 +245,12 @@ class Level:
             # Получаем путь к изображению
             image_path = vb.get('image') or vb.get('image_path')
             
-            # Получаем размеры (опционально)
-            if IS_MOBILE:
-                vbx = int(vb['x'] * scale)
-                vby = int(vb['y'] * scale)
-                width = max(1, int(vb.get('width', 40) * scale))
-                height = max(1, int(vb.get('height', 20) * scale))
-            else:
-                vbx = vb['x']
-                vby = vb['y']
-                width = vb.get('width', 40)
-                height = vb.get('height', 20)
-            
             # Получаем ID блока
             block_id = vb.get('block_id')
             
             self.vertical_buttons.add(VerticalButton(
-                vbx, vby,
-                width, height,
+                vb['x'], vb['y'],
+                vb.get('width', 40), vb.get('height', 20),
                 image_path,
                 block_id
             ))
@@ -380,24 +267,12 @@ class Level:
             # Получаем путь к изображению
             image_path = col.get('image') or col.get('image_path')
             
-            # Получаем размеры (опционально)
-            if IS_MOBILE:
-                colx = int(col['x'] * scale)
-                coly = int(col['y'] * scale)
-                width = max(1, int(col.get('width', 50) * scale))
-                height = max(1, int(col.get('height', 50) * scale))
-            else:
-                colx = col['x']
-                coly = col['y']
-                width = col.get('width', 50)
-                height = col.get('height', 50)
-            
             # Получаем ID элемента (опционально)
             item_id = col.get('item_id')
             
             self.collectibles.add(Collectible(
-                colx, coly,
-                width, height,
+                col['x'], col['y'],
+                col.get('width', 50), col.get('height', 50),
                 image_path,
                 color,
                 item_id
@@ -408,25 +283,13 @@ class Level:
             # Получаем путь к изображению
             image_path = de.get('image') or de.get('image_path')
             
-            # Получаем размеры (опционально)
-            if IS_MOBILE:
-                dex = int(de['x'] * scale)
-                dey = int(de['y'] * scale)
-                width = max(1, int(de.get('width', 100) * scale))
-                height = max(1, int(de.get('height', 150) * scale))
-            else:
-                dex = de['x']
-                dey = de['y']
-                width = de.get('width', 100)
-                height = de.get('height', 150)
-            
             # Получаем размеры экрана для UI (опционально)
             screen_width = de.get('screen_width', 1280)
             screen_height = de.get('screen_height', 720)
             
             self.door_exits.add(DoorExit(
-                dex, dey,
-                width, height,
+                de['x'], de['y'],
+                de.get('width', 100), de.get('height', 150),
                 image_path,
                 screen_width,
                 screen_height
@@ -453,11 +316,12 @@ class Level:
         # Сохраняем общее количество собираемых предметов
         self.total_collectibles = collectible_count
         
-        # Инициализируем solid_objects: платформы, двери и движущиеся блоки (твёрдые объекты)
+        # Инициализируем solid_objects: платформы, двери, движущиеся блоки и блоки (твёрдые объекты)
         self.solid_objects.empty()
         self.solid_objects.add(*self.platforms)
         self.solid_objects.add(*self.doors)
         self.solid_objects.add(*self.moving_blocks)
+        self.solid_objects.add(*self.blocks)
 
     def update(self, level_complete=False, level_failed=False):
         # Если уровень завершён или проигран, останавливаем игроков и врагов
@@ -509,13 +373,6 @@ class Level:
             door_exit.update(self.players, collected, self.total_collectibles)
 
     def draw(self, screen):
-        # Отладочный вывод состояния игроков перед отрисовкой
-        for i, player in enumerate(self.players):
-            GameErrorHandler.log_error(
-                f"Drawing player {i}: rect={player.rect}, image={'exists' if player.image else 'None'}, visible={player.visible if hasattr(player, 'visible') else 'N/A'}",
-                "Level.draw",
-                "DEBUG"
-            )
         self.platforms.draw(screen)
         self.doors.draw(screen)
         self.moving_blocks.draw(screen)
@@ -613,13 +470,3 @@ class Level:
                             else:
                                 p1.vy = 0
                                 p1.on_ground = True
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    

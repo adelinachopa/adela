@@ -44,7 +44,7 @@ class Entity(pygame.sprite.Sprite):
         pass
 
 class Player(Entity):
-    def __init__(self, x, y, color, speed, jump, controls, image_path=None, width=None, height=None):
+    def __init__(self, x, y, color, speed, jump, controls, image_path=None, width=None, height=None, player_name=None):
         # Если width/height не указаны, используем значения по умолчанию из setting.py
         if width is None:
             width = PLAYER_WIDTH
@@ -54,6 +54,7 @@ class Player(Entity):
         self.controls = controls  # словарь с клавишами: left, right, jump
         self.speed = speed
         self.jump = jump
+        self.player_name = player_name  # имя персонажа для идентификации (например, "adelina", "anna")
         self.carried_block = None  # блок, который несёт игрок
         self.pickup_cooldown = 0  # таймер для защиты от мгновенного броска
         # Сохраняем исходное изображение и вычисляем путь к изображению с блоком
@@ -335,65 +336,66 @@ class Block(Entity):
     def _check_collision(self, platforms):
         """Проверка столкновений с платформами"""
         ground_collision = False
+        vertical_velocity = self.throw_vy if self.thrown else self.vy
+        
+        # Этап 1: обрабатываем все вертикальные коллизии (падение/прыжок)
         for platform in platforms:
-            if self.rect.colliderect(platform.rect):
-                # Определяем, какая вертикальная скорость используется
-                vertical_velocity = self.throw_vy if self.thrown else self.vy
-                vertical_collision = False
-                # Если падаем вниз
-                if vertical_velocity > 0:
+            if not self.rect.colliderect(platform.rect):
+                continue
+            
+            # Вертикальная коллизия: падение вниз
+            if vertical_velocity > 0:
+                if self.rect.bottom > platform.rect.top and self.rect.top < platform.rect.top:
                     self.rect.bottom = platform.rect.top
                     if self.thrown:
-                        self.thrown = False  # прекращаем бросок при приземлении
+                        self.thrown = False
                         self.throw_vx = 0
                         self.throw_vy = 0
                     else:
-                        # Блок теперь стоит на земле
                         self.vy = 0
                     self.on_ground = True
-                    vertical_collision = True
                     ground_collision = True
-                # Если движемся вверх (редко)
-                elif vertical_velocity < 0:
+            # Вертикальная коллизия: удар головой
+            elif vertical_velocity < 0:
+                if self.rect.top < platform.rect.bottom and self.rect.bottom > platform.rect.bottom:
                     self.rect.top = platform.rect.bottom + COLLISION_EPSILON
                     if self.thrown:
                         self.throw_vy = self.throw_vy * BOUNCE_FACTOR
                     else:
                         self.vy = self.vy * BOUNCE_FACTOR
-                    # Блок ударился головой, не стоит на земле
                     self.on_ground = False
-                    vertical_collision = True
-                # Если вертикальная скорость равна 0, но блок стоит на платформе
-                elif vertical_velocity == 0:
-                    # Проверяем, что блок находится над платформой (нижняя граница блока близка к верхней границе платформы)
-                    if self.rect.bottom <= platform.rect.top + COLLISION_EPSILON and self.rect.bottom >= platform.rect.top - COLLISION_EPSILON:
-                        # Блок уже стоит на платформе
-                        self.on_ground = True
-                        ground_collision = True
-                        vertical_collision = True
-                
-                # Горизонтальные коллизии (если есть горизонтальная скорость и не было вертикальной коллизии)
-                if not vertical_collision:
-                    if self.thrown and self.throw_vx > 0:
-                        self.rect.right = platform.rect.left - COLLISION_EPSILON
-                        self.throw_vx = self.throw_vx * BOUNCE_FACTOR
-                    elif self.thrown and self.throw_vx < 0:
-                        self.rect.left = platform.rect.right + COLLISION_EPSILON
-                        self.throw_vx = self.throw_vx * BOUNCE_FACTOR
-                    elif not self.thrown and self.carried_by is None:
-                        # Блок толкают (не брошен) — проверяем горизонтальные коллизии
-                        # Определяем направление движения по разнице позиций
-                        # Сравниваем центр блока и центр платформы
-                        dx = self.rect.centerx - platform.rect.centerx
-                        if dx > 0:
-                            # Блок справа от платформы — толкаем вправо, упёрлись левой стороной
-                            self.rect.left = platform.rect.right + COLLISION_EPSILON
-                        else:
-                            # Блок слева от платформы — толкаем влево, упёрлись правой стороной
-                            self.rect.right = platform.rect.left - COLLISION_EPSILON
-                
-                # После обработки коллизии с одной платформой выходим из цикла
-                break
+            # Вертикальная скорость 0 — проверяем, стоит ли блок на платформе
+            elif vertical_velocity == 0:
+                if (self.rect.bottom <= platform.rect.top + COLLISION_EPSILON and
+                    self.rect.bottom >= platform.rect.top - COLLISION_EPSILON and
+                    self.rect.bottom >= platform.rect.top):
+                    self.on_ground = True
+                    ground_collision = True
+        
+        # Этап 2: обрабатываем все горизонтальные коллизии (толкание/бросок)
+        for platform in platforms:
+            if not self.rect.colliderect(platform.rect):
+                continue
+            
+            # Пропускаем, если блок явно стоит сверху на этой платформе
+            if self.on_ground and self.rect.bottom <= platform.rect.top + COLLISION_EPSILON:
+                continue
+            
+            # Горизонтальные коллизии
+            if self.thrown and self.throw_vx > 0:
+                self.rect.right = platform.rect.left - COLLISION_EPSILON
+                self.throw_vx = self.throw_vx * BOUNCE_FACTOR
+            elif self.thrown and self.throw_vx < 0:
+                self.rect.left = platform.rect.right + COLLISION_EPSILON
+                self.throw_vx = self.throw_vx * BOUNCE_FACTOR
+            elif not self.thrown and self.carried_by is None:
+                # Блок толкают — определяем направление
+                dx = self.rect.centerx - platform.rect.centerx
+                if dx > 0:
+                    self.rect.left = platform.rect.right + COLLISION_EPSILON
+                else:
+                    self.rect.right = platform.rect.left - COLLISION_EPSILON
+        
         # Если не было коллизии снизу, блок не на земле
         if not ground_collision:
             self.on_ground = False
@@ -1009,16 +1011,14 @@ class DoorExit(Entity):
         anya_in_zone = False
         
         for player in players:
-            # Определяем имя персонажа по цвету или другим характеристикам
-            # В текущей реализации имена не хранятся, поэтому используем цвет как идентификатор
-            # Аделина - BLUE (0, 100, 255), Аня - RED (255, 100, 100)
-            if hasattr(player, 'color'):
-                if player.color == (0, 100, 255):  # BLUE - Аделина
-                    if self.activation_zone.colliderect(player.rect):
-                        adelina_in_zone = True
-                elif player.color == (255, 100, 100):  # RED - Аня
-                    if self.activation_zone.colliderect(player.rect):
-                        anya_in_zone = True
+            # Определяем персонажа по имени (player_name), установленному при создании
+            player_name = getattr(player, 'player_name', '').lower()
+            if player_name == 'adelina' or player_name == 'player_0':
+                if self.activation_zone.colliderect(player.rect):
+                    adelina_in_zone = True
+            elif player_name == 'anna' or player_name == 'player_1':
+                if self.activation_zone.colliderect(player.rect):
+                    anya_in_zone = True
         
         # Если оба персонажа в зоне - активируем дверь
         if adelina_in_zone and anya_in_zone and not self.activated:
@@ -1094,10 +1094,12 @@ class LevelCompleteUI:
         self.collected_items = 0
         self.total_items = 0
         
-        # Параметры кнопок
-        self.button_width = 400
-        self.button_height = 250
+        # Параметры кнопок — адаптивная ширина под 3 кнопки
         self.button_gap = 20
+        # 3 кнопки + 2 зазора = screen_width - 2*отступ (по 40px с каждой стороны)
+        available_width = screen_width - 80  # 40px отступ слева и справа
+        self.button_width = (available_width - 2 * self.button_gap) // 3
+        self.button_height = min(250, screen_height // 3)  # не больше трети экрана
         self.button_color = (100, 200, 100)
         self.button_hover_color = (50, 180, 50)
         self.button_text_color = (255, 255, 255)
@@ -1195,10 +1197,12 @@ class LevelFailUI:
         # Фоновое изображение failed.jpg
         self.background = load_image("image/sprite/failed.jpg", screen_width, screen_height)
         
-        # Параметры кнопок
-        self.button_width = 400
-        self.button_height = 250
+        # Параметры кнопок — адаптивная ширина под 2 кнопки
         self.button_gap = 20
+        # 2 кнопки + 1 зазор = screen_width - 2*отступ (по 40px с каждой стороны)
+        available_width = screen_width - 80  # 40px отступ слева и справа
+        self.button_width = (available_width - self.button_gap) // 2
+        self.button_height = min(250, screen_height // 3)  # не больше трети экрана
         self.button_color = (200, 100, 100)  # красноватый цвет для проигрыша
         self.button_hover_color = (180, 50, 50)
         self.button_text_color = (255, 255, 255)

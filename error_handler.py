@@ -91,27 +91,6 @@ class GameErrorHandler:
             return surface
     
     @staticmethod
-    def safe_execute(func, default_return=None, context=""):
-        """
-        Декоратор для безопасного выполнения функции.
-        
-        Args:
-            func: Функция для выполнения
-            default_return: Значение по умолчанию при ошибке
-            context (str): Контекст для логирования
-        
-        Returns:
-            Результат функции или default_return при ошибке
-        """
-        def wrapper(*args, **kwargs):
-            try:
-                return func(*args, **kwargs)
-            except Exception as e:
-                GameErrorHandler.log_error(e, f"{context} in {func.__name__}", "ERROR")
-                return default_return
-        return wrapper
-
-    @staticmethod
     def check_pygame_initialization():
         """
         Проверяет инициализацию PyGame и его модулей.

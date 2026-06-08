@@ -117,46 +117,64 @@ python main.py
 ## Структура проекта
 ```
 escape to EMK/
-├── main.py              # Основной игровой цикл
-├── entities.py          # Классы сущностей (игроки, враги, блоки, кнопки, двери, UI)
-├── levels.py            # Управление уровнями
-├── platform.py          # Платформы и стены
-├── menu.py              # Меню и интерфейс
-├── setting.py           # Константы и настройки
-├── error_handler.py     # Система обработки ошибок и логирования
-├── level_loader.py      # Загрузка и валидация JSON уровней
-├── save_manager.py      # Управление сохранениями (загрузка/сохранение прогресса)
-├── joystick.py          # Поддержка джойстика (в разработке)
-├── requirements.txt     # Зависимости
-├── README.md           # Эта документация
-├── DEVELOPMENT_GUIDE.md # Руководство разработчика
+├── main.py                 # Основной игровой цикл
+├── entities.py             # Классы сущностей (игроки, враги, блоки, кнопки, двери, UI)
+├── levels.py               # Управление уровнями
+├── game_platform.py        # Платформы и стены
+├── level_select.py         # Экран выбора уровней
+├── menu.py                 # Меню и интерфейс
+├── setting.py              # Константы и настройки
+├── error_handler.py        # Система обработки ошибок и логирования
+├── level_loader.py         # Загрузка и валидация JSON уровней
+├── save_manager.py         # Управление сохранениями (загрузка/сохранение прогресса)
+├── requirements.txt        # Зависимости
+├── README.md               # Эта документация
+├── DEVELOPMENT_GUIDE.md    # Руководство разработчика
 ├── MOBILE_IMPLEMENTATION.md # Руководство по мобильной версии
-├── game_errors.log     # Файл логов ошибок (генерируется автоматически)
-├── debug_log.txt       # Отладочный лог (генерируется автоматически)
-├── save.json           # Файл сохранения прогресса (генерируется автоматически)
-├── image/              # Графические ресурсы
-│   ├── sprite/         # Спрайты персонажей
-│   ├── background/     # Фоны уровней
-│   └── platform/       # Текстуры платформ
-├── levels/             # Данные уровней в JSON
-│   ├── level_01.json   # Первый уровень
-│   └── level_2.json    # Второй уровень (в разработке)
-├── tests/              # Тесты
-│   ├── run_game_test.py
-│   ├── test_enemy_patrol.py
-│   ├── test_sizes.py
-│   ├── test_door_activation.py
-│   ├── test_door_exit.py
-│   ├── test_mobile_controls.py
-│   ├── test_mobile_integration.py
-│   └── test_field_validation.py
-└── assist_yandex_history/ # История работы с AI ассистентом
-    ├── ARCHITECTURE.md
-    ├── IMPLEMENTATION_GUIDE.md
-    ├── LEVEL_JSON_SCHEMA.md
-    ├── PROJECT_CONTEXT.md
-    ├── SESSION_SUMMARY_2026-05-04.md
-    └── SESSION_SUMMARY_2026-05-21.md
+├── BUILD_ANDROID.md        # Инструкция по сборке APK
+├── save.json               # Файл сохранения прогресса (генерируется автоматически)
+├── image/                  # Графические ресурсы
+│   ├── sprite/             # Спрайты персонажей, кнопок, интерфейса
+│   │   ├── adelina.png     # Игрок 1 (Аделина)
+│   │   ├── anna.png        # Игрок 2 (Аня)
+│   │   ├── dima.png        # Враг (Дима)
+│   │   ├── myxa.png        # Враг (Муха)
+│   │   ├── PK.jpg          # Блок PK
+│   │   ├── block.jpg       # Обычный блок
+│   │   ├── Adelina_block.jpg # Блок с Аделиной
+│   │   ├── pythonchik.jpg  # Собираемый предмет (питончик)
+│   │   ├── door_exit.jpg   # Дверь выхода
+│   │   ├── door_orange.png # Оранжевая дверь
+│   │   ├── button.png      # Кнопка
+│   │   ├── button_1.jpg    # Кнопка (тип 1)
+│   │   ├── button_2.jpg    # Кнопка (тип 2)
+│   │   ├── button_3.jpg    # Кнопка (тип 3)
+│   │   ├── button_lock.jpg # Заблокированная кнопка
+│   │   ├── button_menu.jpg # Кнопка меню
+│   │   ├── button_next.jpg # Кнопка следующего уровня
+│   │   ├── button_orange.png # Оранжевая кнопка
+│   │   ├── button_play.jpg # Кнопка игры
+│   │   ├── button_red.jpg  # Красная кнопка
+│   │   ├── button_replay.jpg # Кнопка повтора
+│   │   ├── movie_red.jpg       # Красная движущаяся платформа (гориз.)
+│   │   ├── movie_red_vert.jpg  # Красная движущаяся платформа (верт.)
+│   │   ├── movie_yellow.jpg    # Жёлтая движущаяся платформа (гориз.)
+│   │   ├── movie_yellow_vert.jpg # Жёлтая движущаяся платформа (верт.)
+│   │   ├── rechag.jpg      # Рычаг
+│   │   ├── refresh.jpg     # Кнопка обновления
+│   │   ├── win.jpg         # Экран победы
+│   │   ├── failed.jpg      # Экран проигрыша
+│   │   ├── main_page.jpg   # Фон главного меню
+│   │   └── levels_page.jpg # Фон экрана уровней
+│   ├── background/         # Фоны уровней
+│   │   └── level1.jpg      # Фон уровня 1
+│   └── platform/           # Текстуры платформ
+│       ├── grass1.jpg      # Трава (тип 1)
+│       └── grass3.jpg      # Трава (тип 3)
+└── levels/                 # Данные уровней в JSON
+    ├── level_01.json       # Первый уровень
+    ├── level_2.json        # Второй уровень
+    └── level_3.json        # Третий уровень
 ```
 
 ## Разработка
@@ -186,7 +204,7 @@ pyinstaller --onefile --windowed main.py
 Игра использует класс `GameErrorHandler` для централизованного логирования ошибок. Все ошибки, предупреждения и отладочные сообщения записываются в `game_errors.log` с метками времени и контекстом.
 
 ### JSON уровни
-Уровни описываются в JSON файлах с определённой схемой. Подробности см. в `assist_yandex_history/LEVEL_JSON_SCHEMA.md`.
+Уровни описываются в JSON файлах с определённой схемой. Каждый JSON файл содержит описание платформ, стен, врагов, кнопок, дверей, блоков и точек появления игроков.
 
 ## Вклад в проект
 
@@ -213,7 +231,6 @@ pyinstaller --onefile --windowed main.py
 5. Создайте Pull Request
 
 ## История разработки
-Проект разрабатывается с помощью AI ассистента (Yandex). Полная история разработки, включая 21 фазу, доступна в папке `assist_yandex_history/`.
 
 **Ключевые этапы:**
 1. Создание системы обработки ошибок

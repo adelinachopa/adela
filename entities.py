@@ -815,9 +815,8 @@ class MovingBlock(Entity):
         self.move_up = move_up  # направление движения: True - вверх, False - вниз
         self.moving = False  # флаг движения
         self.current_offset = 0  # текущее смещение от исходной позиции
-        self.blocked_by_player = False  # флаг: заблокирован игроком
         
-    def update(self, platforms, players=None):
+    def update(self, platforms):
         """Обновление позиции блока"""
         if self.moving:
             # Движение вниз (если move_up=False) или вверх (если move_up=True)
@@ -829,21 +828,9 @@ class MovingBlock(Entity):
                 if self.current_offset > -self.move_range:
                     self.rect.y -= self.move_speed
                     self.current_offset -= self.move_speed
-             
-            # Проверяем коллизии с платформами и игроками
-            self._check_collision(platforms, players)
-        elif self.blocked_by_player:
-            # Блок заблокирован игроком — проверяем, не отошёл ли игрок
-            if players is not None:
-                path_clear = True
-                for player in players:
-                    if self.rect.colliderect(player.rect):
-                        path_clear = False
-                        break
-                if path_clear:
-                    # Игрок отошёл — снимаем блокировку и возобновляем движение
-                    self.blocked_by_player = False
-                    self.moving = True
+            
+            # Проверяем коллизии с платформами
+            self._check_collision(platforms)
         else:
             # Возвращаемся в исходную позицию, если есть смещение
             if self.current_offset != 0:
@@ -863,12 +850,10 @@ class MovingBlock(Entity):
                         self.rect.y = self.original_y
                         self.current_offset = 0
     
-    def _check_collision(self, platforms, players=None):
-        """Проверка столкновений с платформами и игроками"""
+    def _check_collision(self, platforms):
+        """Проверка столкновений с платформами"""
         # Предполагаем, что блок не на земле, пока не обнаружена коллизия снизу
         self.on_ground = False
-        
-        # Проверка коллизий с платформами
         for platform in platforms:
             if self.rect.colliderect(platform.rect):
                 # Если столкнулись, останавливаем движение в текущем направлении
@@ -880,35 +865,7 @@ class MovingBlock(Entity):
                 else:  # двигались вверх
                     self.rect.y += self.move_speed
                     self.current_offset += self.move_speed
-                return
-        
-        # Проверка коллизий с игроками
-        if players is not None and self.moving:
-            for player in players:
-                if self.rect.colliderect(player.rect):
-                    if not self.move_up:  # блок движется вниз
-                        # Игрок сверху блока (стоит на нём) — толкаем игрока вниз
-                        if player.rect.bottom <= self.rect.top + self.move_speed + 5:
-                            player.rect.y += self.move_speed
-                            player.on_ground = True
-                            player.vy = 0
-                            # Блок продолжает движение
-                        else:
-                            # Игрок врезался сбоку — останавливаем блок на месте
-                            self.moving = False
-                            self.blocked_by_player = True
-                            return
-                    else:  # блок движется вверх
-                        # Игрок снизу блока (удар головой) — останавливаем блок на месте
-                        if player.rect.top >= self.rect.bottom - self.move_speed - 5:
-                            self.moving = False
-                            self.blocked_by_player = True
-                            return
-                        else:
-                            # Игрок врезался сбоку — останавливаем блок на месте
-                            self.moving = False
-                            self.blocked_by_player = True
-                            return
+                break
     
     def start_moving(self):
         """Начать движение блока"""
@@ -951,21 +908,11 @@ class VerticalButton(Entity):
                         collision = True
                         break
         
-        # Проверяем, заблокирован ли движущийся блок игроком
-        any_blocked = False
-        if self.block_id and moving_blocks:
-            for block in moving_blocks:
-                if hasattr(block, 'block_id') and block.block_id == self.block_id:
-                    if block.blocked_by_player:
-                        any_blocked = True
-                    break
-        
         # Если коллизия появилась (не было, стало есть) - нажимаем
         if collision and not self.pressed:
             self.press(moving_blocks)
         # Если коллизия исчезла (была, стало нет) - отпускаем
-        # НО: если блок заблокирован игроком, не отпускаем кнопку
-        elif not collision and self.pressed and not any_blocked:
+        elif not collision and self.pressed:
             self.depress(moving_blocks)
         
         self.prev_collision = collision

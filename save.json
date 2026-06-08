@@ -2,5 +2,10 @@
   "player_name": "default",
   "total_pythonchiks": 0,
   "levels": {
+    "level_01": {
+      "completed": false,
+      "collected": 0,
+      "total": 3
+    }
   }
 }

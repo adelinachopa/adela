@@ -352,31 +352,9 @@ class Level:
     def update(self, level_complete=False, level_failed=False):
         # Если уровень завершён или проигран, останавливаем игроков и врагов
         if not level_complete and not level_failed:
-            # Сначала обновляем движущиеся блоки (они двигаются до обработки физики игроков)
-            for moving_block in self.moving_blocks:
-                moving_block.update(self.platforms, self.players)
-            
-            # Потом обновляем игроков
             for player in self.players:
                 player.update(self.solid_objects)
             self.resolve_player_collisions()
-            
-            # Корректируем позицию игроков относительно движущихся блоков
-            for player in self.players:
-                for moving_block in self.moving_blocks:
-                    # Если игрок внутри блока — ставим его на верхнюю грань
-                    if player.rect.colliderect(moving_block.rect):
-                        if player.rect.bottom > moving_block.rect.top and player.rect.top < moving_block.rect.top:
-                            player.rect.bottom = moving_block.rect.top
-                            player.on_ground = True
-                            player.vy = 0
-                    # Если игрок стоит на блоке (ноги на уровне верха блока) — восстанавливаем on_ground
-                    elif (player.rect.bottom >= moving_block.rect.top - 2 and
-                          player.rect.bottom <= moving_block.rect.top + 2 and
-                          player.rect.right > moving_block.rect.left and
-                          player.rect.left < moving_block.rect.right):
-                        player.on_ground = True
-                        player.vy = 0
             
             # Обновляем врагов и собираем мёртвых
             dead_enemies = []
@@ -403,7 +381,9 @@ class Level:
         for door in self.doors:
             door.update()
         
-        # Обновляем вертикальные кнопки
+        # Обновляем вертикальные блоки и кнопки
+        for moving_block in self.moving_blocks:
+            moving_block.update(self.platforms)
         for vertical_button in self.vertical_buttons:
             vertical_button.update(self.players, self.moving_blocks, self.blocks)
         

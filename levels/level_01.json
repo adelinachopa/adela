@@ -1,0 +1,291 @@
+{
+  "metadata": {
+    "id": "level_01",
+    "name": "Начальный уровень",
+    "description": "Первый уровень для обучения основам игры",
+    "background": "image/background/level1.jpg",
+    "difficulty": 1,
+    "unlock_requirement": null,
+    "author": "Аделина",
+    "version": "1.0",
+    "created": "2026-05-04"
+  },
+  "platforms": [
+    {
+      "x": 0,
+      "y": 680,
+      "width": 1280,
+      "height": 40,
+      "texture": "image/platform/grass1.jpg"
+    },
+    {
+      "x": 0,
+      "y": 680,
+      "width": 1280,
+      "height": 40,
+      "texture": "image/platform/grass1.jpg"
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "width": 1,
+      "height": 680,
+      "texture": "image/platform/grass1.jpg"
+    },
+    {
+      "x": 1280,
+      "y": 0,
+      "width": 1,
+      "height": 680,
+      "texture": "image/platform/grass1.jpg"
+    },
+    {
+      "x": 0,
+      "y": 570,
+      "width": 70,
+      "height": 170,
+      "texture": "image/platform/grass1.jpg"
+    },
+    {
+      "x": 170,
+      "y": 460,
+      "width": 70,
+      "height": 140,
+      "texture": "image/platform/grass1.jpg"
+    },
+    {
+      "x": 240,
+      "y": 575,
+      "width": 200,
+      "height": 25,
+      "texture": "image/platform/grass1.jpg"
+    },
+    {
+      "x": 1230,
+      "y": 450,
+      "width": 70,
+      "height": 400,
+      "texture": "image/platform/grass1.jpg"
+    },
+    {
+      "x": 920,
+      "y": 650,
+      "width": 150,
+      "height": 30,
+      "texture": "image/platform/grass1.jpg"
+    },
+    {
+      "x": 920,
+      "y": 610,
+      "width": 100,
+      "height": 40,
+      "texture": "image/platform/grass1.jpg"
+    },
+    {
+      "x": 1090,
+      "y": 500,
+      "width": 140,
+      "height": 20,
+      "texture": "image/platform/grass1.jpg"
+    },
+    {
+      "x": 240,
+      "y": 405,
+      "width": 27,
+      "height": 85,
+      "texture": "image/platform/grass1.jpg"
+    },
+    {
+      "x": 240,
+      "y": 385,
+      "width": 85,
+      "height": 20,
+      "texture": "image/platform/grass1.jpg"
+    },
+    {
+      "x": 290,
+      "y": 355,
+      "width": 700,
+      "height": 30,
+      "texture": "image/platform/grass1.jpg"
+    },
+    {
+      "x": 1087,
+      "y": 355,
+      "width": 196,
+      "height": 30,
+      "texture": "image/platform/grass1.jpg"
+    },
+    {
+      "x": 1200,
+      "y": 325,
+      "width": 80,
+      "height": 30,
+      "texture": "image/platform/grass1.jpg"
+    },
+    {
+      "x": 760,
+      "y": 325,
+      "width": 20,
+      "height": 30,
+      "texture": "image/platform/grass1.jpg"
+    }
+  ],
+  "players": [
+    {
+      "id": "adelina",
+      "x": 299,
+      "y": 535,
+      "color": [0, 100, 255],
+      "speed": 3,
+      "jump_power": -9,
+      "width": 80,
+      "height": 90,
+      "controls": {
+        "left": "K_LEFT",
+        "right": "K_RIGHT",
+        "jump": "K_UP",
+        "down": "K_DOWN"
+      },
+      "image": "image/sprite/adelina.png"
+    },
+    {
+      "id": "anya",
+      "x": 200,
+      "y": 620,
+      "color": [255, 100, 100],
+      "speed": 5,
+      "jump_power": -11,
+      "width": 60,
+      "height": 70,
+      "controls": {
+        "left": "K_a",
+        "right": "K_d",
+        "jump": "K_w"
+      },
+      "image": "image/sprite/anna.png"
+    }
+  ],
+  "enemies": [
+    {
+      "x": 750,
+      "y": 600,
+      "size":80,
+      "color": [150, 50, 200],
+      "speed": 2,
+      "jump_power": 0,
+      "patrol_range": [450, 800],
+      "image": "image/sprite/dima.png"
+    }
+  ],
+  "blocks": [
+    {
+      "x": 400,
+      "y": 535,
+      "width": 40,
+      "height": 40,
+      "color": [200, 100, 50],
+      "image": "image/sprite/PK.jpg"
+    }
+  ],
+  "buttons": [
+    {
+      "x": 820,
+      "y": 660,
+      "width": 40,
+      "height": 20,
+      "image": "image/sprite/button.png",
+      "door_id": "door_1"
+    }
+  ],
+  "doors": [
+    {
+      
+      "x": 70,
+      "y": 550,
+      "width": 100,
+      "height": 20,
+      "image": "image/sprite/movie_yellow.jpg",
+      "door_id": "door_1",
+      "horizontal": true
+    }
+  ],
+  "collectibles": [
+    {
+      "x": 150,
+      "y": 150,
+      "width": 50,
+      "height": 50,
+      "image": "image/sprite/pythonchik.jpg",
+      "item_id": "pythonchik_1"
+    },
+    {
+      "x": 1150,
+      "y": 600,
+      "width": 50,
+      "height": 50,
+      "image": "image/sprite/pythonchik.jpg",
+      "item_id": "pythonchik_2"
+    },
+    {
+      "x": 1100,
+      "y": 300,
+      "width": 50,
+      "height": 50,
+      "image": "image/sprite/pythonchik.jpg",
+      "item_id": "pythonchik_3"
+    }
+  ],
+  "goals": {
+    "type": "exit",
+    "x": 800,
+    "y": 200,
+    "width": 100,
+    "height": 150,
+    "next_level": "level_02"
+  },
+  "moving_blocks": [
+    {
+      "x": 980,
+      "y": 355,
+      "width": 97,
+      "height": 25,
+      "color": [100, 150, 255],
+      "image": "image/sprite/movie_red.jpg",
+      "move_speed": 3,
+      "move_range": 200,
+      "move_up": false,
+      "block_id": "moving_block_1"
+    }
+  ],
+  "vertical_buttons": [
+    {
+      "x": 700,
+      "y": 345,
+      "width": 20,
+      "height": 10,
+      "color": [200, 100, 200],
+      "image": "image/sprite/button_red.jpg",
+      "block_id": "moving_block_1"
+    }
+  ],
+  "door_exits": [
+    {
+      "x": 800,
+      "y": 206,
+      "width": 100,
+      "height": 150,
+      "image": "image/sprite/door_exit.jpg",
+      "screen_width": 1280,
+      "screen_height": 720
+    }
+  ],
+  "settings": {
+    "gravity": 0.5,
+    "friction": 0.8,
+    "max_fall_speed": 15,
+    "camera_follow": "both_players",
+    "time_limit": null,
+    "win_condition": "reach_exit"
+  }
+}

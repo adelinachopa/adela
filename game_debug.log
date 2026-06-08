@@ -1,0 +1,102 @@
+[10:06:59] [INIT] APP_PATH: C:\Users\olego\OneDrive\Desktop\adela\escape to EMK
+[10:06:59] [INIT] IS_MOBILE: False
+[10:06:59] [INIT] SCREEN: 1280x720
+[10:06:59] [INIT] CWD: C:\Users\olego\OneDrive\Desktop\adela\escape to EMK
+[10:06:59] [INIT] ANDROID_PRIVATE: NOT SET
+[10:06:59] [INIT] sys.argv[0]: main.py
+[10:06:59] [INIT] sys.platform: win32
+[10:06:59] [INIT] Files in CWD (43):
+[10:06:59] [INIT]   .buildozer
+[10:07:00] [INIT]   .git
+[10:07:00] [INIT]   .venv
+[10:07:00] [INIT]   BUILD_ANDROID.md
+[10:07:00] [INIT]   DEVELOPMENT_GUIDE.md
+[10:07:00] [INIT]   MOBILE_IMPLEMENTATION.md
+[10:07:00] [INIT]   README.md
+[10:07:00] [INIT]   __pycache__
+[10:07:00] [INIT]   bin
+[10:07:00] [INIT]   build_with_patches.sh
+[10:07:00] [INIT]   buildozer.spec
+[10:07:00] [INIT]   check_apk_pygame.py
+[10:07:00] [INIT]   check_apk_sse2.py
+[10:07:00] [INIT]   check_sse2.sh
+[10:07:00] [INIT]   copy_apk_to_windows.sh
+[10:07:00] [INIT]   debug_log.txt
+[10:07:00] [INIT]   entities.py
+[10:07:00] [INIT]   entities.py.bak
+[10:07:00] [INIT]   error_handler.py
+[10:07:00] [INIT]   game_debug.log
+[10:07:00] [INIT]   game_errors.log
+[10:07:00] [INIT]   game_platform.py
+[10:07:00] [INIT]   image
+[10:07:00] [INIT]   joystick.py
+[10:07:00] [INIT]   level_loader.py
+[10:07:00] [INIT]   level_select.py
+[10:07:00] [INIT]   levels
+[10:07:00] [INIT]   levels.py
+[10:07:00] [INIT]   logcat_filtered.txt
+[10:07:00] [INIT]   main.py
+[10:07:00] [INIT]   menu.py
+[10:07:01] [INIT]   patch_avx2_direct.py
+[10:07:01] [INIT]   patch_pygame_recipe.sh
+[10:07:01] [INIT]   patch_recipe.py
+[10:07:01] [INIT]   plans
+[10:07:01] [INIT]   requirements.txt
+[10:07:01] [INIT]   run_build.sh
+[10:07:01] [INIT]   run_build2.sh
+[10:07:01] [INIT]   run_build3.sh
+[10:07:01] [INIT]   save.json
+[10:07:01] [INIT]   save_manager.py
+[10:07:01] [INIT]   setting.py
+[10:07:01] [INIT]   sync_to_wsl.sh
+[10:10:18] [INIT] APP_PATH: C:\Users\olego\OneDrive\Desktop\adela\escape to EMK
+[10:10:18] [INIT] IS_MOBILE: False
+[10:10:18] [INIT] SCREEN: 1280x720
+[10:10:18] [INIT] CWD: C:\Users\olego\OneDrive\Desktop\adela\escape to EMK
+[10:10:18] [INIT] ANDROID_PRIVATE: NOT SET
+[10:10:18] [INIT] sys.argv[0]: main.py
+[10:10:18] [INIT] sys.platform: win32
+[10:10:18] [INIT] Files in CWD (43):
+[10:10:18] [INIT]   .buildozer
+[10:10:18] [INIT]   .git
+[10:10:18] [INIT]   .venv
+[10:10:18] [INIT]   BUILD_ANDROID.md
+[10:10:18] [INIT]   DEVELOPMENT_GUIDE.md
+[10:10:18] [INIT]   MOBILE_IMPLEMENTATION.md
+[10:10:19] [INIT]   README.md
+[10:10:19] [INIT]   __pycache__
+[10:10:19] [INIT]   bin
+[10:10:19] [INIT]   build_with_patches.sh
+[10:10:19] [INIT]   buildozer.spec
+[10:10:19] [INIT]   check_apk_pygame.py
+[10:10:19] [INIT]   check_apk_sse2.py
+[10:10:19] [INIT]   check_sse2.sh
+[10:10:19] [INIT]   copy_apk_to_windows.sh
+[10:10:19] [INIT]   debug_log.txt
+[10:10:19] [INIT]   entities.py
+[10:10:19] [INIT]   entities.py.bak
+[10:10:19] [INIT]   error_handler.py
+[10:10:19] [INIT]   game_debug.log
+[10:10:19] [INIT]   game_errors.log
+[10:10:19] [INIT]   game_platform.py
+[10:10:19] [INIT]   image
+[10:10:19] [INIT]   joystick.py
+[10:10:19] [INIT]   level_loader.py
+[10:10:19] [INIT]   level_select.py
+[10:10:19] [INIT]   levels
+[10:10:19] [INIT]   levels.py
+[10:10:19] [INIT]   logcat_filtered.txt
+[10:10:19] [INIT]   main.py
+[10:10:19] [INIT]   menu.py
+[10:10:19] [INIT]   patch_avx2_direct.py
+[10:10:19] [INIT]   patch_pygame_recipe.sh
+[10:10:20] [INIT]   patch_recipe.py
+[10:10:20] [INIT]   plans
+[10:10:20] [INIT]   requirements.txt
+[10:10:20] [INIT]   run_build.sh
+[10:10:20] [INIT]   run_build2.sh
+[10:10:20] [INIT]   run_build3.sh
+[10:10:20] [INIT]   save.json
+[10:10:20] [INIT]   save_manager.py
+[10:10:20] [INIT]   setting.py
+[10:10:20] [INIT]   sync_to_wsl.sh

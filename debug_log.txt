@@ -1,0 +1,267 @@
+pygame 2.6.1 (SDL 2.28.4, Python 3.11.9)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+Уровень загружен из: file: level_01.json
+[1778736679.956] Block collides with entity: dx=-45, dy=25, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(304, 535, 32, 40)>, Entity rect: <rect(333, 485, 64, 90)>
+  Entity type: Player
+[1778736679.972] Block collides with entity: dx=-45, dy=25, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(301, 535, 32, 40)>, Entity rect: <rect(330, 485, 64, 90)>
+  Entity type: Player
+[1778736679.988] Block collides with entity: dx=-45, dy=25, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(298, 535, 32, 40)>, Entity rect: <rect(327, 485, 64, 90)>
+  Entity type: Player
+[1778736680.006] Block collides with entity: dx=-45, dy=25, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(295, 535, 32, 40)>, Entity rect: <rect(324, 485, 64, 90)>
+  Entity type: Player
+[1778736680.022] Block collides with entity: dx=-45, dy=25, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(292, 535, 32, 40)>, Entity rect: <rect(321, 485, 64, 90)>
+  Entity type: Player
+[1778736680.038] Block collides with entity: dx=-45, dy=25, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(289, 535, 32, 40)>, Entity rect: <rect(318, 485, 64, 90)>
+  Entity type: Player
+[1778736680.054] Block collides with entity: dx=-45, dy=25, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(286, 535, 32, 40)>, Entity rect: <rect(315, 485, 64, 90)>
+  Entity type: Player
+[1778736680.072] Block collides with entity: dx=-45, dy=25, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(283, 535, 32, 40)>, Entity rect: <rect(312, 485, 64, 90)>
+  Entity type: Player
+[1778736680.089] Block collides with entity: dx=-45, dy=25, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(280, 535, 32, 40)>, Entity rect: <rect(309, 485, 64, 90)>
+  Entity type: Player
+[1778736687.957] Block collides with entity: dx=-35, dy=15, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(921, 570, 32, 40)>, Entity rect: <rect(948, 540, 48, 70)>
+  Entity type: Player
+[1778736687.974] Block collides with entity: dx=44, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(916, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736687.974] Block collides with entity: dx=-35, dy=15, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(916, 570, 32, 40)>, Entity rect: <rect(943, 540, 48, 70)>
+  Entity type: Player
+[1778736687.991] Block collides with entity: dx=39, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(911, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736687.991] Block collides with entity: dx=-35, dy=15, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(911, 570, 32, 40)>, Entity rect: <rect(938, 540, 48, 70)>
+  Entity type: Player
+[1778736688.007] Block collides with entity: dx=-35, dy=15, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(906, 570, 32, 40)>, Entity rect: <rect(933, 540, 48, 70)>
+  Entity type: Player
+[1778736688.024] Block collides with entity: dx=29, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(901, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736688.024] Block collides with entity: dx=-35, dy=15, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(901, 570, 32, 40)>, Entity rect: <rect(928, 540, 48, 70)>
+  Entity type: Player
+[1778736688.040] Block collides with entity: dx=-35, dy=15, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(896, 570, 32, 40)>, Entity rect: <rect(923, 540, 48, 70)>
+  Entity type: Player
+[1778736688.057] Block collides with entity: dx=19, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(891, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736688.057] Block collides with entity: dx=-35, dy=15, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(891, 570, 32, 40)>, Entity rect: <rect(918, 540, 48, 70)>
+  Entity type: Player
+[1778736688.074] Block collides with entity: dx=-35, dy=15, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(886, 570, 32, 40)>, Entity rect: <rect(913, 540, 48, 70)>
+  Entity type: Player
+[1778736688.091] Block collides with entity: dx=9, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(881, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736688.091] Block collides with entity: dx=-35, dy=15, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(881, 570, 32, 40)>, Entity rect: <rect(908, 540, 48, 70)>
+  Entity type: Player
+[1778736688.107] Block collides with entity: dx=-35, dy=15, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(876, 570, 32, 40)>, Entity rect: <rect(903, 540, 48, 70)>
+  Entity type: Player
+[1778736688.124] Block collides with entity: dx=-1, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(871, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736688.124] Block collides with entity: dx=-35, dy=15, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(871, 570, 32, 40)>, Entity rect: <rect(898, 540, 48, 70)>
+  Entity type: Player
+[1778736688.141] Block collides with entity: dx=-35, dy=15, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(866, 570, 32, 40)>, Entity rect: <rect(893, 540, 48, 70)>
+  Entity type: Player
+[1778736688.159] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736688.191] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736688.224] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736688.256] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736688.290] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736688.324] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736688.358] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736688.391] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736688.423] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736688.456] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736688.489] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736688.536] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736688.569] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736688.601] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736688.636] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736688.668] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736688.700] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736688.732] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736688.764] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736688.798] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736688.831] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736688.863] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736688.896] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736688.928] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736688.961] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736688.994] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736689.027] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736689.059] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736689.092] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736689.127] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736689.160] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736689.194] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736689.228] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736689.260] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736689.292] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736689.325] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736689.358] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736689.392] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736689.426] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736689.460] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736689.493] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736689.526] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736689.558] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+[1778736689.591] Block collides with entity: dx=-11, dy=-45, v_vel=0, carried=None, thrown=False
+  Block rect: <rect(861, 570, 32, 40)>, Entity rect: <rect(856, 590, 64, 90)>
+  Entity type: Player
+  Entity hits block from below
+Игрок столкнулся с врагом! Игра окончена.
